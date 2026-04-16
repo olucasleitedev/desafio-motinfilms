@@ -158,7 +158,7 @@ function ScenesSphere() {
   return (
     <Float speed={1.1} rotationIntensity={0.18} floatIntensity={0.55}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[1.3, 196, 196]} />
+        <sphereGeometry args={[1.3, 64, 64]} />
         <shaderMaterial
           ref={matRef}
           uniforms={uniforms}

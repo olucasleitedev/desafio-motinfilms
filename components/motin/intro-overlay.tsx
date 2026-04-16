@@ -10,22 +10,17 @@ import { useEffect, useState } from "react"
  * - Respeita prefers-reduced-motion (pula)
  */
 export function IntroOverlay() {
-  const [phase, setPhase] = useState<"loading" | "reveal" | "done">("loading")
+  // Começa como "done" para o SSR/LCP — o overlay só aparece após hidratação
+  const [phase, setPhase] = useState<"loading" | "reveal" | "done">("done")
 
   useEffect(() => {
-    // Pula se já vimos nesta sessão ou se o usuário pede menos movimento
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
-    const seen =
-      typeof window !== "undefined" &&
-      window.sessionStorage?.getItem("motin-intro-seen") === "1"
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    const seen = window.sessionStorage?.getItem("motin-intro-seen") === "1"
 
-    if (reduce || seen) {
-      setPhase("done")
-      return
-    }
+    if (reduce || seen) return
 
+    // Mostra o overlay após a primeira pintura do browser (LCP já foi capturado)
+    setPhase("loading")
     document.documentElement.style.overflow = "hidden"
     const t1 = setTimeout(() => setPhase("reveal"), 1400)
     const t2 = setTimeout(() => {
