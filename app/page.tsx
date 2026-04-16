@@ -10,6 +10,7 @@ import { Process } from "@/components/motin/process"
 import { Testimonials } from "@/components/motin/testimonials"
 import { ContactForm } from "@/components/motin/contact-form"
 import { Footer } from "@/components/motin/footer"
+import { VapiWidget } from "@/components/motin/vapi-widget"
 
 export default function Page() {
   return (
@@ -26,6 +27,7 @@ export default function Page() {
       <Testimonials />
       <ContactForm />
       <Footer />
+      <VapiWidget />
     </main>
   )
 }
