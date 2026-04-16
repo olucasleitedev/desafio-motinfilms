@@ -21,6 +21,7 @@ const instrument = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://desafio-motinfilms.vercel.app"),
   title: "Motin Films — Produção Audiovisual Cinematográfica",
   description:
     "Filmes de alto impacto com qualidade cinematográfica. Conectamos marcas e pessoas com soluções audiovisuais únicas. +10 anos, +2.000 projetos entregues.",

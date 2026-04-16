@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { Check, Instagram, MapPin, Mail, Phone, Send, Loader2 } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { Check, Instagram, MapPin, Mail, Phone, Send, Loader2, ChevronDown } from "lucide-react"
 
 const NEEDS = [
   "Filme Institucional",
@@ -282,25 +282,15 @@ export function ContactForm() {
                   label="Necessidade"
                   error={touched.necessidade ? errors.necessidade : ""}
                 >
-                  <select
+                  <NeedSelect
                     value={form.necessidade}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, necessidade: e.target.value }))
+                    onChange={(v) =>
+                      setForm((f) => ({ ...f, necessidade: v }))
                     }
                     onBlur={() =>
                       setTouched((t) => ({ ...t, necessidade: true }))
                     }
-                    className={`${inputCls} appearance-none cursor-pointer bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%227%22 viewBox=%220 0 12 7%22><path d=%22M1 1l5 5 5-5%22 stroke=%22%23C9A84C%22 stroke-width=%221.5%22 fill=%22none%22/></svg>')] bg-no-repeat bg-[right_0.75rem_center] pr-10`}
-                  >
-                    <option value="" disabled className="bg-black">
-                      Selecione uma opção
-                    </option>
-                    {NEEDS.map((n) => (
-                      <option key={n} value={n} className="bg-black">
-                        {n}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </FieldWrap>
 
                 {state === "error" && (
@@ -336,6 +326,72 @@ export function ContactForm() {
         </div>
       </div>
     </section>
+  )
+}
+
+function NeedSelect({
+  value,
+  onChange,
+  onBlur,
+}: {
+  value: string
+  onChange: (v: string) => void
+  onBlur: () => void
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false)
+        onBlur()
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [onBlur])
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between border-0 border-b border-white/15 px-0 py-3 text-base transition-colors focus:outline-none group"
+        style={{ borderBottomColor: open ? "var(--gold)" : undefined }}
+      >
+        <span className={value ? "text-ivory" : "text-ivory/25"}>
+          {value || "Selecione uma opção"}
+        </span>
+        <ChevronDown
+          className="h-4 w-4 text-[var(--gold)] transition-transform duration-200 shrink-0"
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+          strokeWidth={1.5}
+        />
+      </button>
+
+      {open && (
+        <div className="absolute left-0 right-0 top-full z-50 mt-1 border border-white/10 bg-[#0d0d10] backdrop-blur-sm shadow-xl overflow-hidden">
+          {NEEDS.map((n) => (
+            <button
+              key={n}
+              type="button"
+              onClick={() => {
+                onChange(n)
+                setOpen(false)
+                onBlur()
+              }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm text-left text-ivory/70 hover:text-ivory hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 group"
+            >
+              <span>{n}</span>
+              {value === n && (
+                <Check className="h-3 w-3 text-[var(--gold)] shrink-0" strokeWidth={2} />
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 
