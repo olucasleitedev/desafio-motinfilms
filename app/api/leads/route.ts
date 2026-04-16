@@ -1,6 +1,12 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+
+// Cliente anon direto — sem cookie/sessão, correto para inserção pública
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 const leadSchema = z.object({
   nome: z.string().min(2, 'Nome obrigatório'),
@@ -14,7 +20,6 @@ export async function POST(request: Request) {
     const body = await request.json()
     const data = leadSchema.parse(body)
 
-    const supabase = await createClient()
     const { error } = await supabase.from('leads').insert(data)
 
     if (error) {
