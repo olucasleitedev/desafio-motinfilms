@@ -1,12 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-// Cliente anon direto — sem cookie/sessão, correto para inserção pública
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+function getPublicSupabase(): SupabaseClient | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url?.trim() || !anonKey?.trim()) return null
+  return createClient(url, anonKey)
+}
 
 const leadSchema = z.object({
   nome: z.string().min(2, 'Nome obrigatório'),
@@ -17,6 +18,12 @@ const leadSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    const supabase = getPublicSupabase()
+    if (!supabase) {
+      console.error('[leads] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY')
+      return NextResponse.json({ error: 'Serviço indisponível' }, { status: 503 })
+    }
+
     const body = await request.json()
     const data = leadSchema.parse(body)
 
