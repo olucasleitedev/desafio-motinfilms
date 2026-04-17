@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Play, X, ArrowUpRight } from "lucide-react"
-import { SectionHeading } from "./section-heading"
-import { TiltCard } from "./tilt-card"
+import { useState } from "react";
+import { Play, X, ArrowUpRight } from "lucide-react";
+import { SectionHeading } from "./section-heading";
+import { TiltCard } from "./tilt-card";
 
 const VIDEOS = [
   {
@@ -24,10 +24,10 @@ const VIDEOS = [
     category: "Série",
     year: "2024",
   },
-]
+];
 
 export function Portfolio() {
-  const [active, setActive] = useState<string | null>(null)
+  const [active, setActive] = useState<string | null>(null);
 
   return (
     <section id="portfolio" className="relative bg-black py-24 md:py-36">
@@ -37,7 +37,11 @@ export function Portfolio() {
             kicker="Portfólio"
             title={
               <>
-                Veja o que fazemos <em className="display-italic text-[var(--gold)]">na prática</em>.
+                Veja o que fazemos{" "}
+                <em className="display-italic text-[var(--gold)]">
+                  na prática
+                </em>
+                .
               </>
             }
           />
@@ -53,60 +57,61 @@ export function Portfolio() {
         <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {VIDEOS.map((v, i) => (
             <TiltCard key={v.id} max={6} className="rounded-2xl">
-            <button
-              onClick={() => setActive(v.id)}
-              className="group relative aspect-[4/5] md:aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[#0a0a0a] text-left"
-            >
-              {/* Thumbnail */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`}
-                alt={v.title}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
-              />
+              <button
+                onClick={() => setActive(v.id)}
+                className="group relative aspect-[4/5] md:aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[#0a0a0a] text-left"
+              >
+                {/* Thumbnail */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`}
+                  alt={v.title}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
+                />
 
-              {/* Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20" />
+                {/* Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20" />
 
-              {/* Grain */}
-              <div
-                aria-hidden
-                className="absolute inset-0 opacity-[0.08] mix-blend-overlay"
-                style={{
-                  backgroundImage:
-                    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-                }}
-              />
+                {/* Grain */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 opacity-[0.08] mix-blend-overlay"
+                  style={{
+                    backgroundImage:
+                      "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+                  }}
+                />
 
-              {/* Number */}
-              <div className="absolute top-6 left-6 text-[10px] tracking-[0.4em] uppercase text-ivory/60">
-                {String(i + 1).padStart(2, "0")} / {String(VIDEOS.length).padStart(2, "0")}
-              </div>
-
-              {/* Play */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full border border-[var(--gold)] text-[var(--gold)] backdrop-blur-sm bg-black/20 transition-all duration-500 group-hover:scale-110 group-hover:bg-[var(--gold)] group-hover:text-black">
-                  <Play className="h-5 w-5 md:h-6 md:w-6 fill-current translate-x-0.5" />
+                {/* Number */}
+                <div className="absolute top-6 left-6 text-[10px] tracking-[0.4em] uppercase text-ivory/60">
+                  {String(i + 1).padStart(2, "0")} /{" "}
+                  {String(VIDEOS.length).padStart(2, "0")}
                 </div>
-              </div>
 
-              {/* Meta */}
-              <div className="absolute bottom-0 inset-x-0 p-6 md:p-8">
-                <div className="flex items-center justify-between gap-4 mb-3">
-                  <span className="text-[10px] tracking-[0.35em] uppercase text-[var(--gold)]">
-                    {v.category}
-                  </span>
-                  <span className="text-[10px] tracking-[0.35em] uppercase text-ivory/50">
-                    {v.year}
-                  </span>
+                {/* Play */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full border border-[var(--gold)] text-[var(--gold)] backdrop-blur-sm bg-black/20 transition-all duration-500 group-hover:scale-110 group-hover:bg-[var(--gold)] group-hover:text-black">
+                    <Play className="h-5 w-5 md:h-6 md:w-6 fill-current translate-x-0.5" />
+                  </div>
                 </div>
-                <h3 className="display text-xl md:text-2xl text-ivory">
-                  {v.title}
-                </h3>
-                <div className="mt-4 h-px w-0 bg-[var(--gold)] transition-all duration-500 group-hover:w-full" />
-              </div>
-            </button>
+
+                {/* Meta */}
+                <div className="absolute bottom-0 inset-x-0 p-6 md:p-8">
+                  <div className="flex items-center justify-between gap-4 mb-3">
+                    <span className="text-[10px] tracking-[0.35em] uppercase text-[var(--gold)]">
+                      {v.category}
+                    </span>
+                    <span className="text-[10px] tracking-[0.35em] uppercase text-ivory/50">
+                      {v.year}
+                    </span>
+                  </div>
+                  <h3 className="display text-xl md:text-2xl text-ivory">
+                    {v.title}
+                  </h3>
+                  <div className="mt-4 h-px w-0 bg-[var(--gold)] transition-all duration-500 group-hover:w-full" />
+                </div>
+              </button>
             </TiltCard>
           ))}
         </div>
@@ -147,5 +152,5 @@ export function Portfolio() {
         </div>
       )}
     </section>
-  )
+  );
 }

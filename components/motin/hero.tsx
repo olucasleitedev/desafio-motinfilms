@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import dynamic from "next/dynamic"
-import Image from "next/image"
-import Link from "next/link"
-import { Play } from "lucide-react"
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import Link from "next/link";
+import { Play } from "lucide-react";
 
 const Hero3D = dynamic(() => import("./hero-3d").then((m) => m.Hero3D), {
   ssr: false,
-})
+});
 
 const capabilities = [
   { label: "01", word: "Cinematografia" },
@@ -15,7 +15,7 @@ const capabilities = [
   { label: "03", word: "Pós-produção" },
   { label: "04", word: "Trilha Original" },
   { label: "05", word: "Color Grading" },
-]
+];
 
 export function Hero() {
   return (
@@ -57,9 +57,7 @@ export function Hero() {
           </span>
         </h1>
 
-        <div
-          className="relative mt-10 md:mt-12 aspect-[4/5] w-[min(64vw,280px)] md:w-[min(22vw,320px)] overflow-hidden rounded-[28px] ring-1 ring-white/10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] animate-float"
-        >
+        <div className="relative mt-10 md:mt-12 aspect-[4/5] w-[min(64vw,280px)] md:w-[min(22vw,320px)] overflow-hidden rounded-[28px] ring-1 ring-white/10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] animate-float">
           <Image
             src="/cinematic-close-up-of-a-film-director-silhouette-a.jpg"
             alt="Diretor em set cinematográfico"
@@ -85,9 +83,7 @@ export function Hero() {
                 className="absolute inset-0 rounded-full border border-[var(--gold)]/30"
               />
               {/* core */}
-              <span
-                className="relative flex h-14 w-14 items-center justify-center rounded-full border border-[var(--gold)]/70 bg-black/50 backdrop-blur-md transition-all duration-500 group-hover:bg-[var(--gold)] group-hover:border-[var(--gold)] group-hover:scale-105"
-              >
+              <span className="relative flex h-14 w-14 items-center justify-center rounded-full border border-[var(--gold)]/70 bg-black/50 backdrop-blur-md transition-all duration-500 group-hover:bg-[var(--gold)] group-hover:border-[var(--gold)] group-hover:scale-105">
                 <Play
                   size={18}
                   strokeWidth={0}
@@ -100,7 +96,8 @@ export function Hero() {
 
         <p className="mt-10 md:mt-12 max-w-xl text-pretty text-center text-[15px] leading-relaxed text-ivory/65">
           Produtora audiovisual cinematográfica com{" "}
-          <span className="text-ivory">+10 anos</span> transformando marcas em narrativas de alto impacto.
+          <span className="text-ivory">+10 anos</span> transformando marcas em
+          narrativas de alto impacto.
         </p>
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -121,7 +118,10 @@ export function Hero() {
           {capabilities.map((c) => (
             <div key={c.word} className="flex items-baseline gap-2 md:gap-3">
               <span className="eyebrow shrink-0">{c.label}</span>
-              <a href="#servicos" className="cap-word text-[clamp(1.2rem,2.4vw,2rem)]">
+              <a
+                href="#servicos"
+                className="cap-word text-[clamp(1.2rem,2.4vw,2rem)]"
+              >
                 {c.word}
               </a>
             </div>
@@ -129,5 +129,5 @@ export function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }

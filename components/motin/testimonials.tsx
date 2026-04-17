@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useRef } from "react"
-import { ArrowLeft, ArrowRight } from "lucide-react"
-import { SectionHeading } from "./section-heading"
+import { useRef } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { SectionHeading } from "./section-heading";
 
 const TESTIMONIALS = [
   {
@@ -23,25 +23,35 @@ const TESTIMONIALS = [
     author: "Liquexpress",
     role: "Campanha de Produto",
   },
-]
+];
 
 export function Testimonials() {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
 
   const scrollBy = (dir: 1 | -1) => {
-    if (!ref.current) return
-    ref.current.scrollBy({ left: dir * ref.current.clientWidth * 0.85, behavior: "smooth" })
-  }
+    if (!ref.current) return;
+    ref.current.scrollBy({
+      left: dir * ref.current.clientWidth * 0.85,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <section id="depoimentos" className="relative bg-black py-24 md:py-36 overflow-hidden">
+    <section
+      id="depoimentos"
+      className="relative bg-black py-24 md:py-36 overflow-hidden"
+    >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mb-16">
           <SectionHeading
             kicker="Depoimentos"
             title={
               <>
-                Resultados comprovados por quem <em className="display-italic text-[var(--gold)]">mais entende</em>.
+                Resultados comprovados por quem{" "}
+                <em className="display-italic text-[var(--gold)]">
+                  mais entende
+                </em>
+                .
               </>
             }
           />
@@ -68,7 +78,10 @@ export function Testimonials() {
         ref={ref}
         className="no-scrollbar flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth px-6 md:px-10 pb-4"
       >
-        <div className="shrink-0 w-2 md:w-[calc((100vw-1400px)/2)]" aria-hidden />
+        <div
+          className="shrink-0 w-2 md:w-[calc((100vw-1400px)/2)]"
+          aria-hidden
+        />
         {TESTIMONIALS.map((t, i) => (
           <article
             key={i}
@@ -101,8 +114,11 @@ export function Testimonials() {
             </div>
           </article>
         ))}
-        <div className="shrink-0 w-2 md:w-[calc((100vw-1400px)/2)]" aria-hidden />
+        <div
+          className="shrink-0 w-2 md:w-[calc((100vw-1400px)/2)]"
+          aria-hidden
+        />
       </div>
     </section>
-  )
+  );
 }

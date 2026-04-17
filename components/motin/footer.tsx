@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 
 export function Footer() {
@@ -41,9 +42,25 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[11px] tracking-[0.2em] uppercase text-ivory/40">
-        <div className="flex items-center gap-6">
-          <span>© 2026 Motin Films</span>
-          <span className="hidden md:inline">Certificação Ancine</span>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-5 sm:gap-6">
+          <Image
+            src="/og.jpg"
+            alt="Motin Films"
+            width={360}
+            height={189}
+            className="h-14 w-auto max-w-[min(100vw,16rem)] sm:h-16 sm:max-w-[18rem] md:h-[4.5rem] md:max-w-[20rem] object-contain object-left opacity-95"
+          />
+          <span className="sm:border-l sm:border-white/10 sm:pl-6">© 2026 Motin Films</span>
+          <div className="flex items-center gap-2.5 sm:border-l sm:border-white/10 sm:pl-6">
+            <Image
+              src="/ANCINE.svg.png"
+              alt="ANCINE — Agência Nacional do Cinema"
+              width={88}
+              height={32}
+              className="h-6 w-auto object-contain opacity-90"
+            />
+            <span>Certificação Ancine</span>
+          </div>
         </div>
         <div className="flex items-center gap-6 flex-wrap">
           <a href="#servicos" className="hover:text-[var(--gold)] transition-colors">

@@ -1,31 +1,27 @@
-import { SectionHeading } from "./section-heading"
+import { SectionHeading } from "./section-heading";
 
 const PROBLEMS = [
   {
     n: "01",
     title: "Vídeos genéricos?",
-    body:
-      "Produções que se misturam às demais, sem identidade visual e sem narrativa que gere identificação com o público certo.",
+    body: "Produções que se misturam às demais, sem identidade visual e sem narrativa que gere identificação com o público certo.",
   },
   {
     n: "02",
     title: "Falta de tempo para planejar?",
-    body:
-      "Cuidamos de toda a cadeia: pré-produção, logística, direção, pós — para que você só precise acompanhar o resultado.",
+    body: "Cuidamos de toda a cadeia: pré-produção, logística, direção, pós — para que você só precise acompanhar o resultado.",
   },
   {
     n: "03",
     title: "Roteiros confusos?",
-    body:
-      "Trabalhamos uma estratégia narrativa clara, com foco em conversão, storytelling e impacto emocional mensurável.",
+    body: "Trabalhamos uma estratégia narrativa clara, com foco em conversão, storytelling e impacto emocional mensurável.",
   },
   {
     n: "04",
     title: "Falta de equipamentos e recursos?",
-    body:
-      "Câmeras cinema, ópticas profissionais, drones certificados, estúdio próprio, iluminação e equipe completa inclusos.",
+    body: "Câmeras cinema, ópticas profissionais, drones certificados, estúdio próprio, iluminação e equipe completa inclusos.",
   },
-]
+];
 
 export function WhyInvest() {
   return (
@@ -35,7 +31,9 @@ export function WhyInvest() {
           kicker="Diagnóstico"
           title={
             <>
-              Por que você ainda <em className="display-italic text-[var(--gold)]">não investe</em> em audiovisual?
+              Por que você ainda{" "}
+              <em className="display-italic text-[var(--gold)]">não investe</em>{" "}
+              em audiovisual?
             </>
           }
           align="left"
@@ -69,5 +67,5 @@ export function WhyInvest() {
         </div>
       </div>
     </section>
-  )
+  );
 }

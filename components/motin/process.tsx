@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import Image from "next/image"
-import { ArrowRight, Check } from "lucide-react"
-import { SectionHeading } from "./section-heading"
+import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { ArrowRight, Check } from "lucide-react";
+import { SectionHeading } from "./section-heading";
 
 type Step = {
-  n: string
-  title: string
-  body: string
-  tag: string
-  duration: string
-  image: string
-  deliverables: string[]
-  output: string
-}
+  n: string;
+  title: string;
+  body: string;
+  tag: string;
+  duration: string;
+  image: string;
+  deliverables: string[];
+  output: string;
+};
 
 const STEPS: Step[] = [
   {
@@ -77,41 +77,45 @@ const STEPS: Step[] = [
     ],
     output: "Peça final pronta para veicular",
   },
-]
+];
 
 export function Process() {
-  const [active, setActive] = useState(0)
-  const [isHover, setIsHover] = useState(false)
-  const rafRef = useRef<number | null>(null)
+  const [active, setActive] = useState(0);
+  const [isHover, setIsHover] = useState(false);
+  const rafRef = useRef<number | null>(null);
 
   const go = useCallback(
-    (i: number) => setActive(((i % STEPS.length) + STEPS.length) % STEPS.length),
+    (i: number) =>
+      setActive(((i % STEPS.length) + STEPS.length) % STEPS.length),
     [],
-  )
+  );
 
   // Auto advance every 7s, pausa no hover
   useEffect(() => {
-    if (isHover) return
-    const t = setTimeout(() => go(active + 1), 7000)
-    return () => clearTimeout(t)
-  }, [active, isHover, go])
+    if (isHover) return;
+    const t = setTimeout(() => go(active + 1), 7000);
+    return () => clearTimeout(t);
+  }, [active, isHover, go]);
 
   // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") go(active + 1)
-      if (e.key === "ArrowLeft") go(active - 1)
-    }
-    window.addEventListener("keydown", onKey)
-    return () => window.removeEventListener("keydown", onKey)
-  }, [active, go])
+      if (e.key === "ArrowRight") go(active + 1);
+      if (e.key === "ArrowLeft") go(active - 1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active, go]);
 
   // Cleanup raf if ever used
-  useEffect(() => () => {
-    if (rafRef.current) cancelAnimationFrame(rafRef.current)
-  }, [])
+  useEffect(
+    () => () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    },
+    [],
+  );
 
-  const step = STEPS[active]
+  const step = STEPS[active];
 
   return (
     <section
@@ -129,7 +133,10 @@ export function Process() {
             title={
               <>
                 Do briefing ao{" "}
-                <em className="display-italic text-[var(--gold)]">último frame</em>.
+                <em className="display-italic text-[var(--gold)]">
+                  último frame
+                </em>
+                .
               </>
             }
             subtitle="Um método testado em mais de 2.000 produções — transparente, colaborativo e obcecado por qualidade."
@@ -142,13 +149,15 @@ export function Process() {
             <div className="absolute left-[11px] top-3 bottom-3 w-px bg-white/10" />
             <div
               className="absolute left-[11px] top-3 w-px bg-[var(--gold)] transition-[height] duration-700 ease-out"
-              style={{ height: `calc(${((active + 1) / STEPS.length) * 100}% - 24px)` }}
+              style={{
+                height: `calc(${((active + 1) / STEPS.length) * 100}% - 24px)`,
+              }}
               aria-hidden
             />
 
             <ul className="flex flex-col gap-3">
               {STEPS.map((s, i) => {
-                const isActive = i === active
+                const isActive = i === active;
                 return (
                   <li key={s.n}>
                     <button
@@ -173,7 +182,9 @@ export function Process() {
                         </span>
                         <span
                           className={`display text-[clamp(1.35rem,2.2vw,1.9rem)] leading-none transition-colors duration-500 ${
-                            isActive ? "text-ivory" : "text-ivory/50 group-hover:text-ivory/80"
+                            isActive
+                              ? "text-ivory"
+                              : "text-ivory/50 group-hover:text-ivory/80"
                           }`}
                         >
                           {s.title}
@@ -182,7 +193,9 @@ export function Process() {
 
                       <div
                         className={`grid transition-all duration-700 ease-out ${
-                          isActive ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0"
+                          isActive
+                            ? "grid-rows-[1fr] opacity-100 mt-3"
+                            : "grid-rows-[0fr] opacity-0"
                         }`}
                       >
                         <div className="min-h-0 overflow-hidden">
@@ -201,7 +214,7 @@ export function Process() {
                       </div>
                     </button>
                   </li>
-                )
+                );
               })}
             </ul>
 
@@ -297,7 +310,10 @@ export function Process() {
 
                 <h3
                   className="display mt-3 text-[clamp(2rem,4.4vw,3.75rem)] text-ivory text-balance"
-                  style={{ animation: "text-clip 0.9s cubic-bezier(0.77,0,0.175,1) both" }}
+                  style={{
+                    animation:
+                      "text-clip 0.9s cubic-bezier(0.77,0,0.175,1) both",
+                  }}
                 >
                   {step.title}
                 </h3>
@@ -319,7 +335,8 @@ export function Process() {
                       key={d}
                       className="flex items-start gap-2.5 text-[13.5px] leading-snug text-ivory/80"
                       style={{
-                        animation: "text-clip 0.9s cubic-bezier(0.77,0,0.175,1) both",
+                        animation:
+                          "text-clip 0.9s cubic-bezier(0.77,0,0.175,1) both",
                         animationDelay: `${0.22 + idx * 0.08}s`,
                       }}
                     >
@@ -333,7 +350,8 @@ export function Process() {
                 <div
                   className="mt-6 inline-flex items-center gap-2 rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-3 py-1.5"
                   style={{
-                    animation: "text-clip 0.9s cubic-bezier(0.77,0,0.175,1) both",
+                    animation:
+                      "text-clip 0.9s cubic-bezier(0.77,0,0.175,1) both",
                     animationDelay: "0.55s",
                   }}
                 >
@@ -364,5 +382,5 @@ export function Process() {
         </div>
       </div>
     </section>
-  )
+  );
 }

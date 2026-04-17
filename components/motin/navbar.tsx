@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
@@ -69,13 +70,20 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* center — wordmark */}
+          {/* center — logo */}
           <Link
             href="#top"
-            className="display text-[clamp(1.05rem,1.4vw,1.35rem)] tracking-[0.02em] text-ivory justify-self-center"
+            className="relative flex h-11 w-auto max-w-[min(58vw,14rem)] shrink-0 items-center justify-self-center sm:h-12 md:h-[3.35rem] md:max-w-[18rem] lg:max-w-[20rem]"
             aria-label="Motin Films — início"
           >
-            MOTIN <span className="text-[var(--gold)]">FILMS</span>
+            <Image
+              src="/logo.png"
+              alt="Motin Films"
+              width={320}
+              height={93}
+              className="h-full w-auto object-contain object-center"
+              priority
+            />
           </Link>
 
           {/* right */}
@@ -85,11 +93,36 @@ export function Navbar() {
             </Link>
             <Link
               href="#contato"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] pl-4 pr-1.5 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory backdrop-blur-md transition-all hover:border-[var(--gold)] hover:text-[var(--gold)]"
+              className={[
+                "group/nav-cta relative isolate inline-flex items-center gap-3 overflow-hidden",
+                "rounded-full border border-white/[0.14] bg-white/[0.035] px-5 py-2.5",
+                "backdrop-blur-md shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset]",
+                "transition-[border-color,box-shadow,transform,color] duration-300 ease-out",
+                "hover:border-[color-mix(in_oklab,var(--gold)_42%,transparent)]",
+                "hover:shadow-[0_0_40px_-12px_color-mix(in_oklab,var(--gold)_55%,transparent),0_0_0_1px_color-mix(in_oklab,var(--gold)_18%,transparent)_inset]",
+                "hover:-translate-y-px active:translate-y-0",
+              ].join(" ")}
             >
-              Fale conosco
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)] text-black transition-transform group-hover:rotate-45">
-                <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.5} />
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[var(--gold)]/[0.14] via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover/nav-cta:opacity-100"
+              />
+              <span className="font-display text-[11px] uppercase tracking-[0.2em] text-ivory/90 transition-colors duration-300 group-hover/nav-cta:text-[var(--gold)]">
+                Fale conosco
+              </span>
+              <span
+                className={[
+                  "relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+                  "bg-[var(--gold)] text-[#08080a]",
+                  "shadow-[0_0_20px_-4px_color-mix(in_oklab,var(--gold)_60%,transparent)]",
+                  "transition-[transform,box-shadow] duration-300 ease-out",
+                  "group-hover/nav-cta:scale-105 group-hover/nav-cta:shadow-[0_0_28px_-2px_color-mix(in_oklab,var(--gold)_70%,transparent)]",
+                ].join(" ")}
+              >
+                <ArrowUpRight
+                  className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover/nav-cta:-translate-y-0.5 group-hover/nav-cta:translate-x-0.5"
+                  strokeWidth={2.5}
+                />
               </span>
             </Link>
           </div>
@@ -161,8 +194,14 @@ export function Navbar() {
             <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-ivory/45">
               Menu
             </span>
-            <span className="display text-lg tracking-[0.02em] text-ivory">
-              MOTIN <span className="text-[var(--gold)]">FILMS</span>
+            <span className="relative flex h-10 w-auto max-w-[12rem] items-center">
+              <Image
+                src="/logo.png"
+                alt="Motin Films"
+                width={280}
+                height={81}
+                className="h-full w-auto object-contain object-right"
+              />
             </span>
           </div>
 

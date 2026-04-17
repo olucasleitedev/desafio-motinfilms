@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { ArrowUpRight } from "lucide-react"
-import Link from "next/link"
-import { Magnetic } from "./magnetic"
-import { Reveal } from "./reveal"
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import { Magnetic } from "./magnetic";
+import { Reveal } from "./reveal";
 
 export function BrandStatement() {
   return (
@@ -45,10 +45,9 @@ export function BrandStatement() {
 
         <Reveal delay={260}>
           <p className="mx-auto mt-10 max-w-2xl text-balance text-base leading-relaxed text-ivory/65 md:text-lg">
-            +10 anos de experiência, certificação Ancine e um método testado
-            em mais de 2.000 produções. Transformamos a complexidade dos seus
-            produtos e serviços em narrativas visuais poderosas e
-            irresistíveis.
+            +10 anos de experiência, certificação Ancine e um método testado em
+            mais de 2.000 produções. Transformamos a complexidade dos seus
+            produtos e serviços em narrativas visuais poderosas e irresistíveis.
           </p>
         </Reveal>
 
@@ -64,5 +63,5 @@ export function BrandStatement() {
         </Reveal>
       </div>
     </section>
-  )
+  );
 }

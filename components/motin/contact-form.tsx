@@ -1,7 +1,16 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { Check, Instagram, MapPin, Mail, Phone, Send, Loader2, ChevronDown } from "lucide-react"
+import { useState, useRef, useEffect } from "react";
+import {
+  Check,
+  Instagram,
+  MapPin,
+  Mail,
+  Phone,
+  Send,
+  Loader2,
+  ChevronDown,
+} from "lucide-react";
 
 const NEEDS = [
   "Filme Institucional",
@@ -9,65 +18,68 @@ const NEEDS = [
   "Filme Evento Corporativo",
   "Filme Conteúdo",
   "Outro",
-]
+];
 
 function formatPhone(v: string) {
-  const d = v.replace(/\D/g, "").slice(0, 11)
-  if (d.length <= 2) return d
-  if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`
+  const d = v.replace(/\D/g, "").slice(0, 11);
+  if (d.length <= 2) return d;
+  if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
   if (d.length <= 10)
-    return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`
-  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`
+    return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
 }
 
 export function ContactForm() {
   const [state, setState] = useState<"idle" | "loading" | "success" | "error">(
     "idle",
-  )
+  );
   const [form, setForm] = useState({
     nome: "",
     email: "",
     telefone: "",
     necessidade: "",
-  })
-  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  });
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const errors = {
     nome: form.nome.trim().length < 2 ? "Informe seu nome completo" : "",
     email: !/^\S+@\S+\.\S+$/.test(form.email) ? "E-mail inválido" : "",
     telefone:
-      form.telefone.replace(/\D/g, "").length < 10
-        ? "Telefone inválido"
-        : "",
+      form.telefone.replace(/\D/g, "").length < 10 ? "Telefone inválido" : "",
     necessidade: !form.necessidade ? "Selecione uma opção" : "",
-  }
+  };
 
-  const isValid = Object.values(errors).every((e) => !e)
+  const isValid = Object.values(errors).every((e) => !e);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setTouched({ nome: true, email: true, telefone: true, necessidade: true })
-    if (!isValid) return
-    setState("loading")
+    e.preventDefault();
+    setTouched({ nome: true, email: true, telefone: true, necessidade: true });
+    if (!isValid) return;
+    setState("loading");
 
     try {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
-      })
+      });
 
       if (!res.ok) {
-        const { error } = await res.json().catch(() => ({ error: "Erro desconhecido" }))
-        throw new Error(error ?? "Erro ao enviar")
+        const { error } = await res
+          .json()
+          .catch(() => ({ error: "Erro desconhecido" }));
+        throw new Error(error ?? "Erro ao enviar");
       }
 
-      console.log("GTM Event: Lead Generated", { email: form.email, necessidade: form.necessidade })
-      setState("success")
+      console.log("GTM Event: Lead Generated", {
+        email: form.email,
+        necessidade: form.necessidade,
+      });
+      setState("success");
     } catch {
-      setState("error")
+      setState("error");
     }
-  }
+  };
 
   return (
     <section
@@ -86,9 +98,7 @@ export function ContactForm() {
             </div>
             <h2 className="display text-4xl md:text-6xl text-ivory mb-10">
               Vamos criar algo{" "}
-              <em className="display-italic text-[var(--gold)]">
-                memorável
-              </em>{" "}
+              <em className="display-italic text-[var(--gold)]">memorável</em>{" "}
               juntos.
             </h2>
             <p className="text-ivory/60 leading-relaxed max-w-md mb-14">
@@ -206,14 +216,14 @@ export function ContactForm() {
                 </div>
                 <button
                   onClick={() => {
-                    setState("idle")
+                    setState("idle");
                     setForm({
                       nome: "",
                       email: "",
                       telefone: "",
                       necessidade: "",
-                    })
-                    setTouched({})
+                    });
+                    setTouched({});
                   }}
                   className="text-[11px] tracking-[0.3em] uppercase text-[var(--gold)] hover:underline underline-offset-4"
                 >
@@ -225,10 +235,7 @@ export function ContactForm() {
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-6 border border-white/10 p-8 md:p-12 bg-black/40 backdrop-blur-sm"
               >
-                <FieldWrap
-                  label="Nome"
-                  error={touched.nome ? errors.nome : ""}
-                >
+                <FieldWrap label="Nome" error={touched.nome ? errors.nome : ""}>
                   <input
                     type="text"
                     value={form.nome}
@@ -270,9 +277,7 @@ export function ContactForm() {
                         telefone: formatPhone(e.target.value),
                       }))
                     }
-                    onBlur={() =>
-                      setTouched((t) => ({ ...t, telefone: true }))
-                    }
+                    onBlur={() => setTouched((t) => ({ ...t, telefone: true }))}
                     placeholder="(41) 99999-9999"
                     className={inputCls}
                   />
@@ -284,9 +289,7 @@ export function ContactForm() {
                 >
                   <NeedSelect
                     value={form.necessidade}
-                    onChange={(v) =>
-                      setForm((f) => ({ ...f, necessidade: v }))
-                    }
+                    onChange={(v) => setForm((f) => ({ ...f, necessidade: v }))}
                     onBlur={() =>
                       setTouched((t) => ({ ...t, necessidade: true }))
                     }
@@ -326,7 +329,7 @@ export function ContactForm() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function NeedSelect({
@@ -334,23 +337,23 @@ function NeedSelect({
   onChange,
   onBlur,
 }: {
-  value: string
-  onChange: (v: string) => void
-  onBlur: () => void
+  value: string;
+  onChange: (v: string) => void;
+  onBlur: () => void;
 }) {
-  const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false)
-        onBlur()
+        setOpen(false);
+        onBlur();
       }
     }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [onBlur])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onBlur]);
 
   return (
     <div ref={ref} className="relative">
@@ -377,35 +380,38 @@ function NeedSelect({
               key={n}
               type="button"
               onClick={() => {
-                onChange(n)
-                setOpen(false)
-                onBlur()
+                onChange(n);
+                setOpen(false);
+                onBlur();
               }}
               className="w-full flex items-center justify-between px-4 py-3 text-sm text-left text-ivory/70 hover:text-ivory hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 group"
             >
               <span>{n}</span>
               {value === n && (
-                <Check className="h-3 w-3 text-[var(--gold)] shrink-0" strokeWidth={2} />
+                <Check
+                  className="h-3 w-3 text-[var(--gold)] shrink-0"
+                  strokeWidth={2}
+                />
               )}
             </button>
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 const inputCls =
-  "w-full bg-transparent border-0 border-b border-white/15 px-0 py-3 text-ivory placeholder:text-ivory/25 focus:border-[var(--gold)] focus:outline-none focus:ring-0 transition-colors text-base"
+  "w-full bg-transparent border-0 border-b border-white/15 px-0 py-3 text-ivory placeholder:text-ivory/25 focus:border-[var(--gold)] focus:outline-none focus:ring-0 transition-colors text-base";
 
 function FieldWrap({
   label,
   error,
   children,
 }: {
-  label: string
-  error?: string
-  children: React.ReactNode
+  label: string;
+  error?: string;
+  children: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -415,10 +421,16 @@ function FieldWrap({
       {children}
       {error && <span className="text-destructive text-xs">{error}</span>}
     </div>
-  )
+  );
 }
 
-function TiktokIcon({ className, strokeWidth }: { className?: string; strokeWidth?: number }) {
+function TiktokIcon({
+  className,
+  strokeWidth,
+}: {
+  className?: string;
+  strokeWidth?: number;
+}) {
   return (
     <svg
       className={className}
@@ -431,10 +443,16 @@ function TiktokIcon({ className, strokeWidth }: { className?: string; strokeWidt
     >
       <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
     </svg>
-  )
+  );
 }
 
-function FacebookIcon({ className, strokeWidth }: { className?: string; strokeWidth?: number }) {
+function FacebookIcon({
+  className,
+  strokeWidth,
+}: {
+  className?: string;
+  strokeWidth?: number;
+}) {
   return (
     <svg
       className={className}
@@ -447,5 +465,5 @@ function FacebookIcon({ className, strokeWidth }: { className?: string; strokeWi
     >
       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
     </svg>
-  )
+  );
 }

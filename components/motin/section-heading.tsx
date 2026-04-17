@@ -1,12 +1,12 @@
-import { cn } from "@/lib/utils"
-import type { ReactNode } from "react"
+import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 interface SectionHeadingProps {
-  kicker: string
-  title: ReactNode
-  subtitle?: ReactNode
-  align?: "left" | "center"
-  className?: string
+  kicker: string;
+  title: ReactNode;
+  subtitle?: ReactNode;
+  align?: "left" | "center";
+  className?: string;
 }
 
 export function SectionHeading({
@@ -47,5 +47,5 @@ export function SectionHeading({
         </p>
       )}
     </div>
-  )
+  );
 }
