@@ -17,11 +17,12 @@ const WHATSAPP_MSG = encodeURIComponent(
   "Olá! Vim pelo site da Motin Films e gostaria de saber mais sobre os serviços de produção audiovisual."
 )
 
-type WidgetState = "idle" | "open" | "connecting" | "active" | "ended"
+type WidgetState = "idle" | "open" | "connecting" | "active" | "ended" | "error"
 type Speaker = "sofia" | "user" | null
 
 export function VapiWidget() {
   const [state, setState] = useState<WidgetState>("idle")
+  const [errorMsg, setErrorMsg] = useState<string>("")
   const [muted, setMuted] = useState(false)
   const [speaker, setSpeaker] = useState<Speaker>(null)
   const [volume, setVolume] = useState(0)
@@ -36,17 +37,28 @@ export function VapiWidget() {
   }, [])
 
   const startCall = useCallback(async () => {
+    const publicKey = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY
+    const assistantId = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID
+
+    if (!publicKey || !assistantId) {
+      setErrorMsg("Configuração incompleta. Tente o WhatsApp.")
+      setState("error")
+      return
+    }
+
     setState("connecting")
+    setErrorMsg("")
 
     // Timeout de segurança: se call-start não disparar em 20s, volta para open
     timeoutRef.current = setTimeout(() => {
       vapiRef.current?.stop()
-      setState("open")
+      setErrorMsg("Tempo esgotado. Verifique sua conexão e tente novamente.")
+      setState("error")
     }, 20000)
 
     try {
       const { default: VapiSDK } = await import("@vapi-ai/web")
-      const vapi = new VapiSDK(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY!)
+      const vapi = new VapiSDK(publicKey)
       vapiRef.current = vapi
 
       vapi.on("call-start", () => {
@@ -62,15 +74,21 @@ export function VapiWidget() {
       vapi.on("speech-start", () => setSpeaker("sofia"))
       vapi.on("speech-end", () => setSpeaker(null))
       vapi.on("volume-level", (v: number) => setVolume(v))
-      vapi.on("error", () => {
+      vapi.on("error", (e: unknown) => {
         if (timeoutRef.current) clearTimeout(timeoutRef.current)
-        setState("open")
+        const msg = e instanceof Error ? e.message : String(e)
+        console.error("[Vapi error]", msg)
+        setErrorMsg("Erro na chamada. Tente novamente ou use o WhatsApp.")
+        setState("error")
       })
 
-      await vapi.start(ASSISTANT_ID)
-    } catch {
+      await vapi.start(assistantId)
+    } catch (e) {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
-      setState("open")
+      const msg = e instanceof Error ? e.message : String(e)
+      console.error("[Vapi startCall error]", msg)
+      setErrorMsg("Não foi possível iniciar a chamada.")
+      setState("error")
     }
   }, [])
 
@@ -99,7 +117,7 @@ export function VapiWidget() {
     )
   }
 
-  if (state === "connecting" || state === "active" || state === "ended") {
+  if (state === "connecting" || state === "active" || state === "ended" || state === "error") {
     return (
       <div className="fixed bottom-8 right-8 z-50 w-64 border border-white/15 bg-[#0d0d10]/95 backdrop-blur-md shadow-2xl p-5 flex flex-col items-center gap-5">
         <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#d4b46a]/30 bg-[#d4b46a]/10">
@@ -138,6 +156,18 @@ export function VapiWidget() {
           >
             Cancelar
           </button>
+        )}
+
+        {state === "error" && (
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-xs text-red-400 text-center">{errorMsg}</p>
+            <button
+              onClick={() => { setErrorMsg(""); setState("open") }}
+              className="text-xs text-[#eeeae0]/45 hover:text-[#eeeae0] transition-colors"
+            >
+              Voltar
+            </button>
+          </div>
         )}
 
         {state === "active" && (
