@@ -61,8 +61,6 @@ export function Portfolio() {
                 onClick={() => setActive(v.id)}
                 className="group relative aspect-[4/5] md:aspect-[3/4] w-full overflow-hidden rounded-2xl bg-[#0a0a0a] text-left"
               >
-                {/* Thumbnail */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg`}
                   alt={v.title}
@@ -70,10 +68,8 @@ export function Portfolio() {
                   className="absolute inset-0 h-full w-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-[1200ms] ease-out"
                 />
 
-                {/* Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/20" />
 
-                {/* Grain */}
                 <div
                   aria-hidden
                   className="absolute inset-0 opacity-[0.08] mix-blend-overlay"
@@ -83,20 +79,17 @@ export function Portfolio() {
                   }}
                 />
 
-                {/* Number */}
                 <div className="absolute top-6 left-6 text-[10px] tracking-[0.4em] uppercase text-ivory/60">
                   {String(i + 1).padStart(2, "0")} /{" "}
                   {String(VIDEOS.length).padStart(2, "0")}
                 </div>
 
-                {/* Play */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full border border-[var(--gold)] text-[var(--gold)] backdrop-blur-sm bg-black/20 transition-all duration-500 group-hover:scale-110 group-hover:bg-[var(--gold)] group-hover:text-black">
                     <Play className="h-5 w-5 md:h-6 md:w-6 fill-current translate-x-0.5" />
                   </div>
                 </div>
 
-                {/* Meta */}
                 <div className="absolute bottom-0 inset-x-0 p-6 md:p-8">
                   <div className="flex items-center justify-between gap-4 mb-3">
                     <span className="text-[10px] tracking-[0.35em] uppercase text-[var(--gold)]">
@@ -124,7 +117,6 @@ export function Portfolio() {
         </div>
       </div>
 
-      {/* Modal */}
       {active && (
         <div
           className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 animate-in fade-in duration-300"

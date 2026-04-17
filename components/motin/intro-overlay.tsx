@@ -2,15 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-/**
- * IntroOverlay
- * Abertura cinematográfica que toca apenas na primeira visita da sessão.
- * - Lock scroll durante a sequência
- * - Fade out em 700ms após 1.6s
- * - Respeita prefers-reduced-motion (pula)
- */
 export function IntroOverlay() {
-  // Começa como "done" para o SSR/LCP — o overlay só aparece após hidratação
   const [phase, setPhase] = useState<"loading" | "reveal" | "done">("done")
 
   useEffect(() => {
@@ -19,9 +11,9 @@ export function IntroOverlay() {
 
     if (reduce || seen) return
 
-    // Mostra o overlay após a primeira pintura do browser (LCP já foi capturado)
     setPhase("loading")
     document.documentElement.style.overflow = "hidden"
+
     const t1 = setTimeout(() => setPhase("reveal"), 1400)
     const t2 = setTimeout(() => {
       setPhase("done")
@@ -49,7 +41,6 @@ export function IntroOverlay() {
         phase === "reveal" ? "opacity-0 pointer-events-none" : "opacity-100",
       ].join(" ")}
     >
-      {/* curtains */}
       <span
         className={[
           "absolute inset-y-0 left-0 w-1/2 bg-[#050506]",
@@ -65,7 +56,6 @@ export function IntroOverlay() {
         ].join(" ")}
       />
 
-      {/* center mark */}
       <div className="relative z-10 flex flex-col items-center gap-5">
         <div className="h-px w-0 bg-[var(--gold)] animate-intro-rule" />
         <span className="display text-4xl md:text-6xl tracking-[0.02em] text-ivory opacity-0 animate-intro-logo">

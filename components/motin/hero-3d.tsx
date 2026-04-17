@@ -11,17 +11,10 @@ import {
 import type { Mesh, ShaderMaterial } from "three"
 import * as THREE from "three"
 
-/**
- * ScenesSphere
- * Uma esfera que exibe cenas cinematográficas reais no seu interior,
- * com crossfade suave entre as imagens, distorção orgânica nos vértices
- * e um rim light dourado via fresnel.
- */
 function ScenesSphere() {
   const meshRef = useRef<Mesh>(null!)
   const matRef = useRef<ShaderMaterial>(null!)
 
-  // 3 cenas que vão ciclar dentro do orb
   const [t1, t2, t3] = useTexture([
     "/orb-scene-1.jpg",
     "/orb-scene-2.jpg",
@@ -67,7 +60,6 @@ function ScenesSphere() {
     uniform float uTime;
     uniform vec2 uMouse;
 
-    // simplex-ish noise (cheap hash-based)
     float hash(vec3 p) {
       p = fract(p * 0.3183099 + 0.1);
       p *= 17.0;
@@ -91,7 +83,6 @@ function ScenesSphere() {
 
       float n = noise(position * 1.8 + uTime * 0.35);
       float bulge = (n - 0.5) * 0.12;
-      // subtle mouse parallax warp
       bulge += (uMouse.x * normal.x + uMouse.y * normal.y) * 0.04;
 
       vec3 displaced = position + normal * bulge;
@@ -113,14 +104,12 @@ function ScenesSphere() {
     uniform vec3 uGold;
 
     void main() {
-      // ciclo: cada imagem fica ~4s, crossfade ~1s
       float t = uTime / 5.0;
       float cycle = mod(t, 3.0);
       float idx = floor(cycle);
       float f = fract(cycle);
       float mixF = smoothstep(0.75, 1.0, f);
 
-      // leve zoom respirando
       vec2 center = vec2(0.5);
       float breath = 1.0 + sin(uTime * 0.4) * 0.02;
       vec2 uv = (vUv - center) / breath + center;
@@ -138,14 +127,11 @@ function ScenesSphere() {
       }
       vec3 scene = mix(aCol, bCol, mixF);
 
-      // tint dourado sutil (filme quente)
       scene = mix(scene, scene * vec3(1.25, 1.08, 0.78), 0.25);
 
-      // fresnel → rim dourado nas bordas
       float fres = pow(1.0 - max(dot(vNormal, vViewDir), 0.0), 2.2);
       vec3 rim = uGold * fres * 1.1;
 
-      // vinheta interna suave
       float vig = smoothstep(0.95, 0.35, distance(vUv, vec2(0.5)));
       scene *= mix(0.75, 1.0, vig);
 

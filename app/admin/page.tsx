@@ -24,7 +24,6 @@ export default async function AdminPage() {
   const allLeads: Lead[] = leads ?? []
   const allCalls: Call[] = calls ?? []
 
-  // Dados para o gráfico — últimos 14 dias
   const chartData = Array.from({ length: 14 }, (_, i) => {
     const day = subDays(new Date(), 13 - i)
     const dayStr = format(day, 'yyyy-MM-dd')
@@ -34,7 +33,6 @@ export default async function AdminPage() {
     return { date: format(day, 'dd/MM'), leads: count }
   })
 
-  // Stats
   const total = allLeads.length
   const hoje = chartData[chartData.length - 1]?.leads ?? 0
   const contatados = allLeads.filter((l) => l.status === 'contatado').length
@@ -42,7 +40,6 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen bg-[#08080a]">
-      {/* Header */}
       <header className="border-b border-white/10 px-6 md:px-10 py-4">
         <div className="max-w-[1400px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -73,7 +70,6 @@ export default async function AdminPage() {
       </header>
 
       <main className="max-w-[1400px] mx-auto px-6 md:px-10 py-10 space-y-10">
-        {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             {
@@ -125,7 +121,6 @@ export default async function AdminPage() {
           ))}
         </div>
 
-        {/* Chart */}
         <div className="border border-white/10 bg-black/20 p-6 md:p-8">
           <div className="flex items-center gap-4 mb-6">
             <span className="h-px w-6 bg-[#d4b46a]" />
@@ -136,7 +131,6 @@ export default async function AdminPage() {
           <LeadsChart data={chartData} />
         </div>
 
-        {/* Leads Table */}
         <div className="border border-white/10 bg-black/20 p-6 md:p-8">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
@@ -152,7 +146,6 @@ export default async function AdminPage() {
           <LeadsTable leads={allLeads} />
         </div>
 
-        {/* Calls */}
         <div className="border border-white/10 bg-black/20 p-6 md:p-8">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">

@@ -88,7 +88,6 @@ export function ContactForm() {
     >
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24">
-          {/* LEFT — info */}
           <div>
             <div className="flex items-center gap-4 mb-8">
               <span className="h-px w-10 bg-[var(--gold)]" />
@@ -198,7 +197,6 @@ export function ContactForm() {
             </div>
           </div>
 
-          {/* RIGHT — form */}
           <div className="relative">
             {state === "success" ? (
               <div className="flex flex-col items-start gap-6 p-10 md:p-14 border border-[var(--gold)]/40 bg-[var(--gold)]/5">

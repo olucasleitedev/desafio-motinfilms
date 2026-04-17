@@ -1,33 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
-/* ------------------------------------------------------------------
-   VAPI end-of-call-report payload (estrutura real)
-   {
-     message: {
-       type: "end-of-call-report",
-       endedReason: string,
-       durationSeconds: number,
-       call: { id: string, startedAt: string, endedAt: string },
-       artifact: {
-         transcript: string,          ← transcrição completa
-         recordingUrl: string,        ← URL da gravação
-         messages: [{ role, message }]
-       },
-       analysis: {
-         summary: string,             ← resumo gerado pela IA
-         successEvaluation: string
-       }
-     }
-   }
------------------------------------------------------------------- */
-
 export async function POST(request: Request) {
   try {
     const body = await request.json()
     const message = body?.message
 
-    // ignora eventos que não são o relatório final
     if (message?.type !== 'end-of-call-report') {
       return NextResponse.json({ ok: true })
     }
@@ -44,7 +22,6 @@ export async function POST(request: Request) {
 
     const supabase = await createClient()
 
-    // evita duplicatas caso o VAPI reenvie o evento
     const { data: existing } = await supabase
       .from('calls')
       .select('id')

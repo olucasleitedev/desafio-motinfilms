@@ -90,14 +90,12 @@ export function Process() {
     [],
   );
 
-  // Auto advance every 7s, pausa no hover
   useEffect(() => {
     if (isHover) return;
     const t = setTimeout(() => go(active + 1), 7000);
     return () => clearTimeout(t);
   }, [active, isHover, go]);
 
-  // Keyboard navigation
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") go(active + 1);
@@ -107,7 +105,6 @@ export function Process() {
     return () => window.removeEventListener("keydown", onKey);
   }, [active, go]);
 
-  // Cleanup raf if ever used
   useEffect(
     () => () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -144,7 +141,6 @@ export function Process() {
         </div>
 
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)] lg:gap-20">
-          {/* LEFT — step rail (clickable) */}
           <div className="relative">
             <div className="absolute left-[11px] top-3 bottom-3 w-px bg-white/10" />
             <div
@@ -166,7 +162,6 @@ export function Process() {
                       aria-current={isActive ? "step" : undefined}
                       className="group relative w-full text-left pl-10 py-4 pr-4 rounded-lg transition-colors duration-500 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--gold)]/60"
                     >
-                      {/* dot */}
                       <span
                         aria-hidden
                         className={`absolute left-1 top-1/2 -translate-y-1/2 h-[22px] w-[22px] rounded-full border-2 transition-all duration-500 ${
@@ -238,10 +233,8 @@ export function Process() {
             </div>
           </div>
 
-          {/* RIGHT — cinematic reveal card */}
           <div className="relative perspective-1200">
             <div className="relative aspect-[4/5] md:aspect-[5/6] w-full overflow-hidden rounded-2xl border border-white/10 bg-black shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8)]">
-              {/* Stack: crossfade images */}
               {STEPS.map((s, i) => (
                 <div
                   key={s.n}
@@ -263,7 +256,6 @@ export function Process() {
                 </div>
               ))}
 
-              {/* gradients */}
               <div
                 className="absolute inset-0 bg-gradient-to-t from-black via-black/35 to-transparent"
                 aria-hidden
@@ -273,7 +265,6 @@ export function Process() {
                 aria-hidden
               />
 
-              {/* Film frame corners */}
               {[
                 "top-4 left-4 border-t border-l",
                 "top-4 right-4 border-t border-r",
@@ -287,7 +278,6 @@ export function Process() {
                 />
               ))}
 
-              {/* Top info bar */}
               <div className="absolute inset-x-0 top-0 flex items-center justify-between p-5 md:p-7">
                 <span className="font-mono text-[10px] uppercase tracking-[0.35em] text-ivory/75">
                   Etapa {step.n} / 0{STEPS.length}
@@ -297,7 +287,6 @@ export function Process() {
                 </span>
               </div>
 
-              {/* Bottom content block */}
               <div
                 key={`content-${active}`}
                 className="absolute inset-x-0 bottom-0 p-6 md:p-10"
@@ -328,7 +317,6 @@ export function Process() {
                   {step.body}
                 </p>
 
-                {/* Deliverables */}
                 <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
                   {step.deliverables.map((d, idx) => (
                     <li
@@ -346,7 +334,6 @@ export function Process() {
                   ))}
                 </ul>
 
-                {/* Output chip */}
                 <div
                   className="mt-6 inline-flex items-center gap-2 rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-3 py-1.5"
                   style={{
@@ -363,7 +350,6 @@ export function Process() {
               </div>
             </div>
 
-            {/* Progress bar */}
             <div className="mt-5 flex items-center gap-3">
               <span className="font-mono text-[11px] tracking-[0.25em] text-ivory/50">
                 {String(active + 1).padStart(2, "0")}
