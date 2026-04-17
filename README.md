@@ -6,33 +6,36 @@
 
 ## Stack
 
-| Camada | Tecnologia |
-|---|---|
-| Framework | Next.js 16 — App Router |
-| Linguagem | TypeScript strict |
-| Estilização | Tailwind CSS v4 — Mobile First |
+| Camada         | Tecnologia                         |
+| -------------- | ---------------------------------- |
+| Framework      | Next.js 16 — App Router            |
+| Linguagem      | TypeScript strict                  |
+| Estilização    | Tailwind CSS v4 — Mobile First     |
 | Banco de dados | Supabase (PostgreSQL + Auth + RLS) |
-| Deploy | Vercel |
-| Gráficos | Recharts |
-| 3D | Three.js + React Three Fiber |
+| Deploy         | Vercel                             |
+| Gráficos       | Recharts                           |
+| 3D             | Three.js + React Three Fiber       |
 
 ---
 
 ## Requisitos atendidos
 
 ### Parte 1 — Landing Page
+
 - Todos os blocos do briefing implementados: Hero, Números, Por quê investir, Portfólio, Clientes, Serviços, Depoimentos e Contato
 - Formulário com campos Nome, E-mail, Telefone e Necessidade (select)
 - Estados de loading, sucesso e erro com feedback visual ao usuário
 - Mobile First com breakpoints Tailwind em todos os componentes
 
 ### Parte 2 — Backend & Supabase
+
 - `POST /api/leads` valida os dados com **Zod** no servidor antes de gravar
 - Dados persistidos na tabela `leads` do Supabase
 - **RLS ativo**: `anon` pode inserir, `authenticated` pode ler/atualizar/deletar
 - Evento de analytics disparado no submit: `console.log('GTM Event: Lead Generated')`
 
 ### Parte 3 — Painel Admin (`/admin`)
+
 - Rota protegida via **middleware Next.js** + Supabase Auth
 - Login com e-mail e senha (`/admin/login`)
 - Tabela de leads com nome, e-mail, telefone, necessidade, status e data
@@ -40,6 +43,7 @@
 - Feedback de loading por linha via `useTransition`
 
 ### Diferenciais implementados
+
 - Gráfico de barras **"Leads por dia"** (últimos 14 dias) com Recharts
 - Evento GTM fictício no submit do formulário
 - Hero 3D com shaders GLSL via Three.js
@@ -68,8 +72,8 @@ cp .env.example .env.local
 Preencha `.env.local` com as credenciais do Supabase (Project Settings → API):
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://xxxx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+NEXT_PUBLIC_SUPABASE_URL=etc
+NEXT_PUBLIC_SUPABASE_ANON_KEY=etc
 ```
 
 Execute o SQL de `supabase/schema.sql` no SQL Editor do Supabase, crie um usuário em **Authentication → Users → Add user** e rode:
@@ -77,13 +81,3 @@ Execute o SQL de `supabase/schema.sql` no SQL Editor do Supabase, crie um usuár
 ```bash
 npm run dev
 ```
-
----
-
-## Uso de IA
-
-Usei o **Claude Code** como par de programação durante o desenvolvimento.
-
-A IA foi útil para: scaffolding do painel admin, configuração do schema SQL com RLS, conexão do Supabase com SSR (middleware + cookie handlers) e code review da arquitetura — identificou que o `ignoreBuildErrors: true` mascarava erros de TypeScript e que o formulário não tinha backend real.
-
-Decisões de design, identidade visual, animações e revisão de cada sugestão antes de aceitar foram feitas por mim. A ferramenta acelerou as partes repetitivas e liberou tempo para qualidade de UI e decisões arquiteturais.
