@@ -41,7 +41,7 @@ export function Hero() {
           Dê vida às suas ideias
         </h1>
 
-        <div className="relative mt-10 md:mt-12 aspect-[4/5] w-[min(64vw,280px)] md:w-[min(22vw,320px)] overflow-hidden rounded-[28px] ring-1 ring-white/10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] animate-float">
+        <div className="relative mt-10 md:mt-12 aspect-[4/5] w-[min(64vw,280px)] md:w-[min(22vw,320px)] overflow-hidden rounded-[28px] ring-1 ring-white/10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] hero-image-float">
           <Image
             src="/cinematic-close-up-of-a-film-director-silhouette-a.jpg"
             alt="Diretor em set cinematográfico"

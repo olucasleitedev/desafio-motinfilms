@@ -278,6 +278,13 @@
 }
 .animate-float { animation: float-slow 8s ease-in-out infinite; will-change: transform; }
 
+/* Hero image float — inicia após 3s para não bloquear LCP */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-image-float {
+    animation: float-slow 8s ease-in-out 3s infinite;
+  }
+}
+
 /* Text reveal — transform-only, opacity sempre 1 para LCP detection imediata */
 @keyframes text-clip {
   from { transform: translateY(24px); }
