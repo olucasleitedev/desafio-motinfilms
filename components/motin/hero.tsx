@@ -29,7 +29,7 @@ export function Hero() {
           interactive
           parallax
           animationSpeed={1}
-          linesGradient={["#e945f5", "#6f6f6f", "#6a6a6a"]}
+          linesGradient={["#d4b46a", "#eeeae0", "#e4cd92"]}
         />
       </div>
 
