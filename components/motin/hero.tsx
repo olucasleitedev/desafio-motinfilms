@@ -1,15 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { Play } from "lucide-react";
-
-const Hero3D = dynamic(() => import("./hero-3d").then((m) => m.Hero3D), {
-  ssr: false,
-  loading: () => null,
-});
 
 const capabilities = [
   { label: "01", word: "Cinematografia" },
@@ -20,38 +13,16 @@ const capabilities = [
 ];
 
 export function Hero() {
-  const [showOrb, setShowOrb] = useState(false);
-
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const isSmallViewport = window.matchMedia?.("(max-width: 768px)").matches;
-    const lowCpu = (navigator.hardwareConcurrency || 4) <= 4;
-    const lowMemory = "deviceMemory" in navigator
-      ? ((navigator as Navigator & { deviceMemory?: number }).deviceMemory || 4) <= 4
-      : false;
-
-    if (prefersReducedMotion || isSmallViewport || lowCpu || lowMemory) {
-      return;
-    }
-
-    const load = () => setShowOrb(true);
-    if ("requestIdleCallback" in window) {
-      const handle = requestIdleCallback(load, { timeout: 3000 });
-      return () => cancelIdleCallback(handle);
-    }
-    const timer = setTimeout(load, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <section
       id="top"
       className="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden"
     >
-      <div className="absolute inset-0 z-0" aria-hidden>
-        {showOrb && <Hero3D />}
+      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
+        <div className="mesh-bg absolute inset-0 opacity-90" />
+        <div className="absolute inset-0 hero-glow opacity-80" />
+        <div className="absolute -top-24 left-[10%] h-[32rem] w-[32rem] rounded-full bg-[var(--gold)]/10 blur-[110px] animate-float" />
+        <div className="absolute -bottom-28 right-[8%] h-[30rem] w-[30rem] rounded-full bg-[var(--gold-soft)]/10 blur-[100px] animate-float [animation-delay:-3.5s]" />
       </div>
 
       <div
