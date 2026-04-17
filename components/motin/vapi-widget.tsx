@@ -26,22 +26,35 @@ export function VapiWidget() {
   const [speaker, setSpeaker] = useState<Speaker>(null)
   const [volume, setVolume] = useState(0)
   const vapiRef = useRef<Vapi | null>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     return () => {
       vapiRef.current?.removeAllListeners()
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
   }, [])
 
   const startCall = useCallback(async () => {
     setState("connecting")
+
+    // Timeout de segurança: se call-start não disparar em 20s, volta para open
+    timeoutRef.current = setTimeout(() => {
+      vapiRef.current?.stop()
+      setState("open")
+    }, 20000)
+
     try {
       const { default: VapiSDK } = await import("@vapi-ai/web")
       const vapi = new VapiSDK(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY!)
       vapiRef.current = vapi
 
-      vapi.on("call-start", () => setState("active"))
+      vapi.on("call-start", () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        setState("active")
+      })
       vapi.on("call-end", () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
         setState("ended")
         setSpeaker(null)
         setTimeout(() => setState("idle"), 3000)
@@ -49,10 +62,14 @@ export function VapiWidget() {
       vapi.on("speech-start", () => setSpeaker("sofia"))
       vapi.on("speech-end", () => setSpeaker(null))
       vapi.on("volume-level", (v: number) => setVolume(v))
-      vapi.on("error", () => setState("idle"))
+      vapi.on("error", () => {
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        setState("open")
+      })
 
       await vapi.start(ASSISTANT_ID)
     } catch {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
       setState("open")
     }
   }, [])
@@ -86,6 +103,9 @@ export function VapiWidget() {
     return (
       <div className="fixed bottom-8 right-8 z-50 w-64 border border-white/15 bg-[#0d0d10]/95 backdrop-blur-md shadow-2xl p-5 flex flex-col items-center gap-5">
         <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#d4b46a]/30 bg-[#d4b46a]/10">
+          {state === "connecting" && (
+            <span className="absolute inset-0 rounded-full border border-[#d4b46a]/40 animate-ping" />
+          )}
           {state === "active" && (
             <span
               className="absolute inset-0 rounded-full border border-[#d4b46a]/40 animate-ping"
@@ -106,6 +126,19 @@ export function VapiWidget() {
               (speaker === "sofia" ? "Sofia está falando..." : "Ouvindo...")}
           </p>
         </div>
+
+        {state === "connecting" && (
+          <button
+            onClick={() => {
+              if (timeoutRef.current) clearTimeout(timeoutRef.current)
+              vapiRef.current?.stop()
+              setState("open")
+            }}
+            className="text-xs text-[#eeeae0]/45 hover:text-[#eeeae0] transition-colors"
+          >
+            Cancelar
+          </button>
+        )}
 
         {state === "active" && (
           <div className="flex items-end gap-0.5 h-6">
