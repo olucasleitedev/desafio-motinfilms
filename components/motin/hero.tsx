@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Play } from "lucide-react";
+import FloatingLines from "./FloatingLines";
 
 const capabilities = [
   { label: "01", word: "Cinematografia" },
@@ -19,10 +20,17 @@ export function Hero() {
       className="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden"
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
-        <div className="mesh-bg absolute inset-0 opacity-90" />
-        <div className="absolute inset-0 hero-glow opacity-80" />
-        <div className="absolute -top-24 left-[10%] h-[32rem] w-[32rem] rounded-full bg-[var(--gold)]/10 blur-[110px] animate-float" />
-        <div className="absolute -bottom-28 right-[8%] h-[30rem] w-[30rem] rounded-full bg-[var(--gold-soft)]/10 blur-[100px] animate-float [animation-delay:-3.5s]" />
+        <FloatingLines
+          enabledWaves={["top", "middle", "bottom"]}
+          lineCount={8}
+          lineDistance={8}
+          bendRadius={8}
+          bendStrength={-2}
+          interactive
+          parallax
+          animationSpeed={1}
+          linesGradient={["#e945f5", "#6f6f6f", "#6a6a6a"]}
+        />
       </div>
 
       <div
