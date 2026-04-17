@@ -278,13 +278,13 @@
 }
 .animate-float { animation: float-slow 8s ease-in-out infinite; will-change: transform; }
 
-/* Text clip reveal — usa transform (GPU-compositable, sem clip-path) */
+/* Text reveal — opacity + translateY leve; opacity>0 garante detecção pelo LCP do Chrome */
 @keyframes text-clip {
-  from { transform: translateY(105%); }
-  to { transform: translateY(0%); }
+  from { opacity: 0.01; transform: translateY(22px); }
+  to   { opacity: 1;    transform: translateY(0); }
 }
 .animate-text-clip {
-  animation: text-clip 1.1s cubic-bezier(0.77, 0, 0.175, 1) both;
+  animation: text-clip 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Intro overlay animations (compositable: transform + opacity) */

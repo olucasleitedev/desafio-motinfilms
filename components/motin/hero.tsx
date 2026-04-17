@@ -40,15 +40,11 @@ export function Hero() {
         </div>
 
         <h1 className="display text-ivory text-center text-[clamp(2.8rem,10vw,9.5rem)] max-w-[14ch] text-balance leading-[0.9]">
-          <span className="block overflow-hidden pb-1">
-            <span className="inline-block animate-text-clip [animation-delay:0.1s]">
-              Dê vida
-            </span>
+          <span className="block animate-text-clip [animation-delay:0.1s]">
+            Dê vida
           </span>
-          <span className="block overflow-hidden pb-1">
-            <span className="inline-block animate-text-clip [animation-delay:0.25s]">
-              às suas ideias
-            </span>
+          <span className="block animate-text-clip [animation-delay:0.2s]">
+            às suas ideias
           </span>
         </h1>
 
