@@ -27,6 +27,9 @@
 
   --gold: #d4b46a;
   --gold-soft: #e4cd92;
+  --wave-pink: #e945f5;
+  --wave-gray-mid: #6f6f6f;
+  --wave-gray-end: #6a6a6a;
   --ivory: #eeeae0;
   --charcoal: #0d0d10;
   --radius: 0.5rem;
@@ -59,6 +62,9 @@
   --color-ring: var(--ring);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
+  --color-wave-pink: var(--wave-pink);
+  --color-wave-gray-mid: var(--wave-gray-mid);
+  --color-wave-gray-end: var(--wave-gray-end);
   --color-ivory: var(--ivory);
   --color-charcoal: var(--charcoal);
 
