@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +8,7 @@ import { Play } from "lucide-react";
 
 const Hero3D = dynamic(() => import("./hero-3d").then((m) => m.Hero3D), {
   ssr: false,
+  loading: () => null,
 });
 
 const capabilities = [
@@ -18,13 +20,25 @@ const capabilities = [
 ];
 
 export function Hero() {
+  const [showOrb, setShowOrb] = useState(false);
+
+  useEffect(() => {
+    const load = () => setShowOrb(true);
+    if ("requestIdleCallback" in window) {
+      const handle = requestIdleCallback(load, { timeout: 3000 });
+      return () => cancelIdleCallback(handle);
+    }
+    const timer = setTimeout(load, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section
       id="top"
       className="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden"
     >
       <div className="absolute inset-0 z-0" aria-hidden>
-        <Hero3D />
+        {showOrb && <Hero3D />}
       </div>
 
       <div

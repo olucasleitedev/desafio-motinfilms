@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import Vapi from "@vapi-ai/web"
+import type Vapi from "@vapi-ai/web"
 import {
   Mic,
   MicOff,
@@ -20,14 +20,6 @@ const WHATSAPP_MSG = encodeURIComponent(
 type WidgetState = "idle" | "open" | "connecting" | "active" | "ended"
 type Speaker = "sofia" | "user" | null
 
-let vapiSingleton: Vapi | null = null
-function getVapi(): Vapi {
-  if (!vapiSingleton) {
-    vapiSingleton = new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY!)
-  }
-  return vapiSingleton
-}
-
 export function VapiWidget() {
   const [state, setState] = useState<WidgetState>("idle")
   const [muted, setMuted] = useState(false)
@@ -36,29 +28,30 @@ export function VapiWidget() {
   const vapiRef = useRef<Vapi | null>(null)
 
   useEffect(() => {
-    const vapi = getVapi()
-    vapiRef.current = vapi
-
-    vapi.on("call-start", () => setState("active"))
-    vapi.on("call-end", () => {
-      setState("ended")
-      setSpeaker(null)
-      setTimeout(() => setState("idle"), 3000)
-    })
-    vapi.on("speech-start", () => setSpeaker("sofia"))
-    vapi.on("speech-end", () => setSpeaker(null))
-    vapi.on("volume-level", (v: number) => setVolume(v))
-    vapi.on("error", () => setState("idle"))
-
     return () => {
-      vapi.removeAllListeners()
+      vapiRef.current?.removeAllListeners()
     }
   }, [])
 
   const startCall = useCallback(async () => {
     setState("connecting")
     try {
-      await vapiRef.current?.start(ASSISTANT_ID)
+      const { default: VapiSDK } = await import("@vapi-ai/web")
+      const vapi = new VapiSDK(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY!)
+      vapiRef.current = vapi
+
+      vapi.on("call-start", () => setState("active"))
+      vapi.on("call-end", () => {
+        setState("ended")
+        setSpeaker(null)
+        setTimeout(() => setState("idle"), 3000)
+      })
+      vapi.on("speech-start", () => setSpeaker("sofia"))
+      vapi.on("speech-end", () => setSpeaker(null))
+      vapi.on("volume-level", (v: number) => setVolume(v))
+      vapi.on("error", () => setState("idle"))
+
+      await vapi.start(ASSISTANT_ID)
     } catch {
       setState("open")
     }
@@ -74,7 +67,6 @@ export function VapiWidget() {
     setMuted(next)
   }, [muted])
 
-  /* ── idle button ── */
   if (state === "idle") {
     return (
       <button
@@ -90,11 +82,9 @@ export function VapiWidget() {
     )
   }
 
-  /* ── call active / connecting ── */
   if (state === "connecting" || state === "active" || state === "ended") {
     return (
       <div className="fixed bottom-8 right-8 z-50 w-64 border border-white/15 bg-[#0d0d10]/95 backdrop-blur-md shadow-2xl p-5 flex flex-col items-center gap-5">
-        {/* avatar / waveform */}
         <div className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#d4b46a]/30 bg-[#d4b46a]/10">
           {state === "active" && (
             <span
@@ -105,7 +95,6 @@ export function VapiWidget() {
           <span className="text-2xl select-none">🎬</span>
         </div>
 
-        {/* status */}
         <div className="text-center space-y-0.5">
           <p className="text-[10px] tracking-[0.3em] uppercase text-[#d4b46a]">
             Sofia · Motin Films
@@ -118,7 +107,6 @@ export function VapiWidget() {
           </p>
         </div>
 
-        {/* waveform bars (visual only) */}
         {state === "active" && (
           <div className="flex items-end gap-0.5 h-6">
             {Array.from({ length: 12 }).map((_, i) => (
@@ -137,7 +125,6 @@ export function VapiWidget() {
           </div>
         )}
 
-        {/* controls */}
         {state === "active" && (
           <div className="flex items-center gap-3">
             <button
@@ -172,10 +159,8 @@ export function VapiWidget() {
     )
   }
 
-  /* ── open panel ── */
   return (
     <div className="fixed bottom-8 right-8 z-50 w-72 border border-white/10 bg-[#0d0d10]/95 backdrop-blur-md shadow-2xl">
-      {/* header */}
       <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/10">
         <div>
           <p className="text-[10px] tracking-[0.35em] uppercase text-[#d4b46a]">
@@ -191,9 +176,7 @@ export function VapiWidget() {
         </button>
       </div>
 
-      {/* options */}
       <div className="p-4 flex flex-col gap-3">
-        {/* WhatsApp */}
         <a
           href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`}
           target="_blank"
@@ -211,7 +194,6 @@ export function VapiWidget() {
           </div>
         </a>
 
-        {/* Voice */}
         <button
           onClick={startCall}
           className="flex items-center gap-4 p-4 border border-white/10 hover:border-[#d4b46a]/40 hover:bg-[#d4b46a]/5 transition-colors group text-left"
