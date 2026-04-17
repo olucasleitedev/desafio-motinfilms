@@ -66,7 +66,7 @@
 git clone https://github.com/olucasleitedev/desafio-motinfilms.git
 cd desafio-motinfilms
 npm install
-cp .env.example .env.local
+cp .env.example
 ```
 
 Preencha `.env.local` com as credenciais do Supabase (Project Settings → API):
