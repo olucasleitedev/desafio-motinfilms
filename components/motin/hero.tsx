@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Play } from "lucide-react";
-import FloatingLines from "./FloatingLines";
 
 const capabilities = [
   { label: "01", word: "Cinematografia" },
@@ -20,17 +19,7 @@ export function Hero() {
       className="relative isolate flex min-h-[100svh] w-full flex-col overflow-hidden"
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
-        <FloatingLines
-          enabledWaves={["top", "middle", "bottom"]}
-          lineCount={8}
-          lineDistance={8}
-          bendRadius={8}
-          bendStrength={-2}
-          interactive
-          parallax
-          animationSpeed={1}
-          linesGradient={["#d4b46a", "#eeeae0", "#e4cd92"]}
-        />
+        <div className="hero-canvas absolute inset-0" />
       </div>
 
       <div

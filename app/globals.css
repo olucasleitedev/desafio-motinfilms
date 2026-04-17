@@ -134,6 +134,45 @@
     radial-gradient(ellipse 50% 30% at 50% 0%, rgba(212, 180, 106, 0.08), transparent 70%);
 }
 
+/* ─── Hero background — pure CSS, zero JS, zero filter:blur ─────────────── */
+/* Gradientes estáticos (sem repaints) */
+.hero-canvas {
+  background:
+    radial-gradient(ellipse 65% 45% at 12% 18%, rgba(212, 180, 106, 0.14) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 88% 75%, rgba(212, 180, 106, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 55% at 50% 108%, rgba(212, 180, 106, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 28% at 50% 0%,   rgba(212, 180, 106, 0.07) 0%, transparent 55%),
+    var(--background);
+}
+
+/* Camada de pulso dourado — opacity-only = 100% GPU composited */
+.hero-canvas::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 55% at 50% 50%, rgba(212, 180, 106, 0.09) 0%, transparent 65%);
+  animation: hero-breathe 7s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* Grid de linhas cinematográficas — background-image estático, custo zero */
+.hero-canvas::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(212, 180, 106, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 180, 106, 0.025) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, #000 30%, transparent 75%);
+}
+
+@keyframes hero-breathe {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
 /* Hairline rule */
 .rule {
   height: 1px;
