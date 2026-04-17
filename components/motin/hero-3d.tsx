@@ -4,7 +4,6 @@ import { Suspense, useMemo, useRef } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import {
   ContactShadows,
-  Environment,
   Float,
   useTexture,
 } from "@react-three/drei"
@@ -23,7 +22,7 @@ function ScenesSphere() {
   ;[t1, t2, t3].forEach((t) => {
     t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping
     t.colorSpace = THREE.SRGBColorSpace
-    t.anisotropy = 8
+    t.anisotropy = 2
   })
 
   const uniforms = useMemo(
@@ -144,7 +143,7 @@ function ScenesSphere() {
   return (
     <Float speed={1.1} rotationIntensity={0.18} floatIntensity={0.55}>
       <mesh ref={meshRef}>
-        <sphereGeometry args={[1.3, 64, 64]} />
+        <sphereGeometry args={[1.3, 40, 40]} />
         <shaderMaterial
           ref={matRef}
           uniforms={uniforms}
@@ -173,7 +172,7 @@ function OrbitingRing({
   })
   return (
     <mesh ref={ref} rotation={[tilt, 0, 0]}>
-      <torusGeometry args={[radius, 0.004, 16, 256]} />
+      <torusGeometry args={[radius, 0.004, 12, 120]} />
       <meshBasicMaterial color="#d4b46a" transparent opacity={opacity} />
     </mesh>
   )
@@ -182,13 +181,14 @@ function OrbitingRing({
 export function Hero3D() {
   return (
     <Canvas
-      dpr={[1, 1.8]}
+      dpr={[0.75, 1.15]}
       camera={{ position: [0, 0, 4.5], fov: 42 }}
       gl={{
-        antialias: true,
+        antialias: false,
         alpha: true,
-        powerPreference: "high-performance",
+        powerPreference: "default",
       }}
+      performance={{ min: 0.5 }}
       style={{ background: "transparent" }}
     >
       <ambientLight intensity={0.4} />
@@ -204,15 +204,7 @@ export function Hero3D() {
         <OrbitingRing radius={2.05} speed={0.25} tilt={0.35} opacity={0.28} />
         <OrbitingRing radius={2.45} speed={-0.18} tilt={-0.25} opacity={0.18} />
         <OrbitingRing radius={2.85} speed={0.12} tilt={0.6} opacity={0.12} />
-        <ContactShadows
-          position={[0, -1.8, 0]}
-          opacity={0.35}
-          scale={8}
-          blur={2.8}
-          far={3}
-          color="#000000"
-        />
-        <Environment preset="studio" />
+        <ContactShadows position={[0, -1.8, 0]} opacity={0.22} scale={7} blur={1.8} far={2.5} color="#000000" />
       </Suspense>
     </Canvas>
   )

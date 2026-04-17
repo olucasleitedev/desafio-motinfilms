@@ -379,3 +379,18 @@
   transform: scaleX(1);
   transform-origin: left center;
 }
+
+/* Lighthouse SEO/readability: evita texto efetivo abaixo de 12px */
+:where([class*='text-[10px]']) {
+  font-size: 12px !important;
+  line-height: 1.2;
+}
+
+:where([class*='text-[11px]']) {
+  font-size: 12px !important;
+  line-height: 1.25;
+}
+
+.eyebrow {
+  font-size: 12px;
+}

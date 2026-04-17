@@ -23,6 +23,19 @@ export function Hero() {
   const [showOrb, setShowOrb] = useState(false);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const isSmallViewport = window.matchMedia?.("(max-width: 768px)").matches;
+    const lowCpu = (navigator.hardwareConcurrency || 4) <= 4;
+    const lowMemory = "deviceMemory" in navigator
+      ? ((navigator as Navigator & { deviceMemory?: number }).deviceMemory || 4) <= 4
+      : false;
+
+    if (prefersReducedMotion || isSmallViewport || lowCpu || lowMemory) {
+      return;
+    }
+
     const load = () => setShowOrb(true);
     if ("requestIdleCallback" in window) {
       const handle = requestIdleCallback(load, { timeout: 3000 });
@@ -53,7 +66,7 @@ export function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--gold)] opacity-70" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
           </span>
-          <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-ivory/70">
+          <span className="font-mono text-[12px] uppercase tracking-[0.22em] text-ivory/70">
             Disponível para novos projetos — 2026
           </span>
         </div>
