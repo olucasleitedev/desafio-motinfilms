@@ -20,8 +20,10 @@ const instrument = Instrument_Serif({
   display: "swap",
 })
 
+const BASE_URL = "https://desafio-motinfilms.vercel.app"
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://desafio-motinfilms.vercel.app"),
+  metadataBase: new URL(BASE_URL),
   title: "Motin Films — Produção Audiovisual Cinematográfica",
   description:
     "Filmes de alto impacto com qualidade cinematográfica. Conectamos marcas e pessoas com soluções audiovisuais únicas. +10 anos, +2.000 projetos entregues.",
@@ -34,25 +36,28 @@ export const metadata: Metadata = {
     "Ancine",
     "cinema corporativo",
   ],
+  alternates: {
+    canonical: BASE_URL,
+  },
   openGraph: {
     title: "Motin Films — Produção Audiovisual Cinematográfica",
     description:
       "Filmes de alto impacto com qualidade cinematográfica. +10 anos de experiência e +2.000 projetos entregues.",
     type: "website",
     locale: "pt_BR",
-    url: "https://motinfilms.com.br",
+    url: BASE_URL,
     siteName: "Motin Films",
     images: [
       {
         url: "/og.jpg",
-        width: 800,
-        height: 800,
+        width: 1200,
+        height: 630,
         alt: "Motin Films — Produção Audiovisual Cinematográfica",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Motin Films — Produção Audiovisual Cinematográfica",
     description:
       "Filmes de alto impacto com qualidade cinematográfica. +10 anos de experiência.",

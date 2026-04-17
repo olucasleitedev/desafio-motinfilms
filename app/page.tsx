@@ -12,9 +12,31 @@ import { ContactForm } from "@/components/motin/contact-form"
 import { Footer } from "@/components/motin/footer"
 import { VapiWidget } from "@/components/motin/vapi-widget"
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Motin Films",
+  url: "https://desafio-motinfilms.vercel.app",
+  logo: "https://desafio-motinfilms.vercel.app/logo.png",
+  description:
+    "Produtora audiovisual cinematográfica com +10 anos de experiência e +2.000 projetos entregues. Especialistas em filmes institucionais e produção de vídeo em Curitiba.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Curitiba",
+    addressRegion: "PR",
+    addressCountry: "BR",
+  },
+  sameAs: ["https://motinfilms.com.br"],
+}
+
 export default function Page() {
   return (
-    <main className="relative overflow-x-hidden bg-background text-ivory">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <main className="relative overflow-x-hidden bg-background text-ivory">
       <Navbar />
       <Hero />
       <Stats />
@@ -29,5 +51,6 @@ export default function Page() {
       <Footer />
       <VapiWidget />
     </main>
+    </>
   )
 }
