@@ -191,7 +191,7 @@ export function Navbar() {
         >
           {/* header */}
           <div className="flex h-16 items-center justify-between border-b border-white/5 px-6">
-            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-ivory/45">
+            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-ivory/60">
               Menu
             </span>
             <span className="relative flex h-10 w-auto max-w-[12rem] items-center">
@@ -225,7 +225,7 @@ export function Navbar() {
                   <span className="display text-[2.25rem] leading-none text-ivory transition-colors group-hover:text-[var(--gold)]">
                     {item.label}
                   </span>
-                  <span className="font-mono text-[10px] tracking-[0.32em] text-ivory/35">
+                  <span className="font-mono text-[10px] tracking-[0.32em] text-ivory/50">
                     {item.num}
                   </span>
                 </Link>

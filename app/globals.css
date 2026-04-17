@@ -278,13 +278,13 @@
 }
 .animate-float { animation: float-slow 8s ease-in-out infinite; will-change: transform; }
 
-/* Text reveal — opacity + translateY leve; opacity>0 garante detecção pelo LCP do Chrome */
+/* Text reveal — transform-only, opacity sempre 1 para LCP detection imediata */
 @keyframes text-clip {
-  from { opacity: 0.01; transform: translateY(22px); }
-  to   { opacity: 1;    transform: translateY(0); }
+  from { transform: translateY(24px); }
+  to   { transform: translateY(0); }
 }
 .animate-text-clip {
-  animation: text-clip 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: text-clip 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Intro overlay animations (compositable: transform + opacity) */
@@ -364,7 +364,7 @@
   letter-spacing: 0.32em;
   text-transform: uppercase;
   font-weight: 500;
-  color: rgba(238, 234, 224, 0.55);
+  color: rgba(238, 234, 224, 0.65);
 }
 
 /* Capabilities row — Apex style */
@@ -438,4 +438,5 @@
 
 .eyebrow {
   font-size: 12px;
+  color: rgba(238, 234, 224, 0.65);
 }

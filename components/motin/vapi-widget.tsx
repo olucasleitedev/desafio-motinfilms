@@ -151,7 +151,7 @@ export function VapiWidget() {
         )}
 
         {state === "ended" && (
-          <p className="text-[10px] text-[#eeeae0]/30 text-center">
+          <p className="text-[10px] text-[#eeeae0]/45 text-center">
             Entraremos em contato em breve.
           </p>
         )}
@@ -170,7 +170,7 @@ export function VapiWidget() {
         </div>
         <button
           onClick={() => setState("idle")}
-          className="text-[#eeeae0]/30 hover:text-[#eeeae0] transition-colors"
+          className="text-[#eeeae0]/45 hover:text-[#eeeae0] transition-colors"
         >
           <X className="h-4 w-4" strokeWidth={1.5} />
         </button>
@@ -188,7 +188,7 @@ export function VapiWidget() {
           </div>
           <div>
             <p className="text-sm text-[#eeeae0] font-medium">WhatsApp</p>
-            <p className="text-[11px] text-[#eeeae0]/40 mt-0.5">
+            <p className="text-[11px] text-[#eeeae0]/55 mt-0.5">
               Mensagem pré-pronta
             </p>
           </div>
@@ -203,14 +203,14 @@ export function VapiWidget() {
           </div>
           <div>
             <p className="text-sm text-[#eeeae0] font-medium">Falar com Sofia</p>
-            <p className="text-[11px] text-[#eeeae0]/40 mt-0.5">
+            <p className="text-[11px] text-[#eeeae0]/55 mt-0.5">
               Atendimento por voz · IA
             </p>
           </div>
         </button>
       </div>
 
-      <p className="px-5 pb-4 text-[10px] text-[#eeeae0]/20 text-center">
+      <p className="px-5 pb-4 text-[10px] text-[#eeeae0]/40 text-center">
         Respondemos em até 24h úteis
       </p>
     </div>
