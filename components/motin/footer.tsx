@@ -41,7 +41,7 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[11px] tracking-[0.2em] uppercase text-ivory/40">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[11px] tracking-[0.2em] uppercase text-ivory/55">
         <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-5 sm:gap-6">
           <Image
             src="/og.jpg"

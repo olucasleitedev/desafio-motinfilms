@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { Play } from "lucide-react";
@@ -40,12 +38,7 @@ export function Hero() {
         </div>
 
         <h1 className="display text-ivory text-center text-[clamp(2.8rem,10vw,9.5rem)] max-w-[14ch] text-balance leading-[0.9]">
-          <span className="block animate-text-clip [animation-delay:0.1s]">
-            Dê vida
-          </span>
-          <span className="block animate-text-clip [animation-delay:0.2s]">
-            às suas ideias
-          </span>
+          Dê vida às suas ideias
         </h1>
 
         <div className="relative mt-10 md:mt-12 aspect-[4/5] w-[min(64vw,280px)] md:w-[min(22vw,320px)] overflow-hidden rounded-[28px] ring-1 ring-white/10 shadow-[0_40px_120px_-20px_rgba(0,0,0,0.6)] animate-float">
