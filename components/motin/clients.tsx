@@ -1,17 +1,70 @@
-const CLIENTS = [
-  "Unimed",
-  "Electrolux",
-  "LJ Santos",
-  "Inplasul",
-  "Liquexpress",
-  "Pasa",
-  "Spaten",
-  "Warner Pictures",
+"use client"
+
+type ClientLogo = {
+  name: string
+  logoSrc?: string
+  logoWidth?: number
+  logoHeight?: number
+}
+
+const CLIENTS: ClientLogo[] = [
+  {
+    name: "Electrolux",
+    logoSrc: "/logos/electrolux.svg",
+    logoWidth: 120,
+    logoHeight: 28,
+  },
+  { name: "Unimed" },
+  {
+    name: "Warner Bros.",
+    logoSrc: "/logos/warnerbros.svg",
+    logoWidth: 28,
+    logoHeight: 28,
+  },
+  { name: "Spaten" },
+  { name: "LJ Santos" },
+  { name: "Inplasul" },
+  { name: "Liquexpress" },
+  { name: "Pasa" },
 ]
 
-export function Clients() {
+function ClientCard({ client }: { client: ClientLogo }) {
   return (
-    <section className="relative bg-black py-24 md:py-32 border-t border-white/5">
+    <div className="group flex h-[72px] shrink-0 items-center justify-center rounded-none border border-white/[0.08] bg-white/[0.02] px-8 transition-all duration-500 hover:border-[var(--gold)]/30 hover:bg-[var(--gold)]/[0.04]">
+      {client.logoSrc ? (
+        <img
+          src={client.logoSrc}
+          alt={client.name}
+          width={client.logoWidth}
+          height={client.logoHeight}
+          loading="lazy"
+          style={{
+            width: client.logoWidth,
+            height: client.logoHeight,
+            filter: "brightness(0) invert(1)",
+            opacity: 0.55,
+            transition: "opacity 0.4s ease",
+            objectFit: "contain",
+          }}
+          className="group-hover:opacity-90"
+        />
+      ) : (
+        <span
+          className="font-display text-[15px] tracking-[0.12em] uppercase text-ivory/45 transition-colors duration-400 group-hover:text-ivory/80"
+          style={{ letterSpacing: "0.08em" }}
+        >
+          {client.name}
+        </span>
+      )}
+    </div>
+  )
+}
+
+export function Clients() {
+  const items = [...CLIENTS, ...CLIENTS]
+
+  return (
+    <section className="relative overflow-hidden bg-black py-24 md:py-32 border-t border-white/5">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10 mb-14">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
@@ -35,31 +88,29 @@ export function Clients() {
         </div>
       </div>
 
-      {/* Marquee */}
       <div className="relative">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 left-0 w-24 z-10 bg-gradient-to-r from-black to-transparent"
+          className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10 bg-gradient-to-r from-black to-transparent"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 right-0 w-24 z-10 bg-gradient-to-l from-black to-transparent"
+          className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10 bg-gradient-to-l from-black to-transparent"
         />
 
-        <div className="flex whitespace-nowrap animate-marquee">
-          {Array.from({ length: 2 }).map((_, lane) => (
-            <div key={lane} className="flex items-center gap-4 md:gap-6 pr-4 md:pr-6">
-              {CLIENTS.map((c) => (
-                <span
-                  key={`${lane}-${c}`}
-                  className="group rounded-full px-6 md:px-9 py-3 md:py-4 border border-white/10 bg-white/[0.02] text-ivory/80 font-display text-xl md:text-2xl hover:border-[var(--gold)] hover:text-[var(--gold)] hover:bg-[var(--gold)]/5 transition-all duration-500 hover:scale-[1.03]"
-                >
-                  {c}
-                </span>
-              ))}
-            </div>
+        <div className="flex animate-marquee" style={{ gap: "12px" }}>
+          {items.map((client, i) => (
+            <ClientCard key={`${client.name}-${i}`} client={client} />
           ))}
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10 mt-10 flex items-center gap-4">
+        <span className="h-px flex-1 bg-white/5" />
+        <span className="text-[10px] tracking-[0.3em] uppercase text-ivory/25">
+          {CLIENTS.length} marcas atendidas
+        </span>
+        <span className="h-px flex-1 bg-white/5" />
       </div>
     </section>
   )
